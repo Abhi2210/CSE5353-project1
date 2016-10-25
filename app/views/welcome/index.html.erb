@@ -1,0 +1,83 @@
+<h1>WDM PROJECT-1</h1>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"> </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxWdlqc4QKhlsezRIv-YYdAb_qLkY-uD4"></script>
+<script type="text/javascript" src="../jquery.googlemap.js"></script>
+
+
+
+<div>
+  <button type="button" id="click1" remote="true">Click Me!</button>
+
+</div>
+
+<script>
+
+  $(document).ready(function(){
+
+
+    $("#click1").click(function() {
+      $.get("/api/data",function(data) {
+        var chart_labels = [];
+        var chart_data = [];
+        $.each(data,function(key,value){
+          $('#json_display').append("<tr><td>"+key+"</td><td>"+value+"</td></tr>")
+
+        })
+        $.each (data, function(key, value){
+          $("#data_list").append('<tr style = "border: 1px black solid" ><td style = "border: 1px black solid">' + key + '</td><td style = "border: 1px black solid">' + value + ' </td></tr>');
+          chart_labels.push(key)
+          chart_data.push(value)
+
+        })
+
+        chart_labels.splice(0,2)
+        chart_data.splice(0,2)
+        chart_labels.splice(12,1)
+        chart_data.splice(12,1)
+        $("#map").googleMap();
+        $("#map").addMarker({
+          coords: [48.895651, 2.290569], // GPS coords
+          title: 'Marker n°1', // Title
+          text:  '<b>Lorem ipsum</b> dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' // HTML content
+        });
+
+
+        Chart.defaults.global.animation.duration=200
+        var canvas = $("#bar_graph");
+        var bar_graph= new Chart(canvas,{
+          type:"bar",
+          data:{
+            labels:chart_labels,
+            datasets:[{
+              label: "911 data",
+              data:chart_data
+            }
+            ]
+          }
+        })
+        console.log(data)
+
+
+      })
+    })
+
+  })
+
+
+</script>
+<div id="map" style="width: 300px; height: 300px;">
+</div>
+<div id="chart" >
+
+  <canvas id="bar_graph" style="width: 200px; height: 400px;"></canvas>
+</div>
+
+
+<div>
+  <table id="json_display">
+  </table>
+</div>
