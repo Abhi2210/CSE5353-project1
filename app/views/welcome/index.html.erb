@@ -19,7 +19,8 @@
         $("#map").addMarker({
           coords: [response["Latitude Coordinates"], response["Longitude Coordinates"]], // GPS coords
           type: "TERRAIN",
-          title: 'Marker1' // Title
+          title: 'Marker1',
+          text:  '<b>Murphy</b>'
         });
         Chart.defaults.global.animation.duration = 200;
         var canvas = $("#bar_chart");
@@ -29,7 +30,7 @@
             labels : chart_labels,
             datasets: [
               {
-                label: "911 call records",
+                label: "Traffic Warning",
                 data: chart_data
               }
             ]}
@@ -39,7 +40,7 @@
   });
 </script>
 
-<h1>Data for 911 calls in the city of Murphy</h1>
+<h1>Traffic Warning</h1>
 <div ng-app="my_output" ng-controller = "my_script">
   <div id="input" style = "margin: 20px 0 20px 0; align-items: center; width: 100%;">
     <button type="button" ng-click="myFunction()" id="display" remote="true">executer</button>
